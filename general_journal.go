@@ -62,7 +62,7 @@ type CSVHeaderLine struct {
 	Mandant int // 12
 
 	// Wirtschaftsjahresbeginn
-	WJBeginn Date // 13
+	WJBeginn *Date // 13
 
 	// Kleinste Sachkontenlänge = 4, Grösste Sachkontenlänge = 8
 	Sachkontenlange int // 14

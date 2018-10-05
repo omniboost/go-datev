@@ -32,11 +32,6 @@ type Date struct {
 	time.Time
 }
 
-// used for csv export
-func (d Date) MarshalText() ([]byte, error) {
-	return []byte(d.String()), nil
-}
-
 func (d *Date) String() string {
 	if d == nil {
 		return ""
@@ -44,13 +39,14 @@ func (d *Date) String() string {
 	return d.Time.Format("20060102")
 }
 
-func (d Date) IsEmpty() bool {
-	return d.Time.IsZero()
+// used for csv export
+func (d Date) MarshalText() ([]byte, error) {
+	return []byte(d.String()), nil
 }
 
-func (d *Date) UnmarshalJSON(text []byte) (err error) {
+func (d *Date) UnmarshalJSON(data []byte) (err error) {
 	var value string
-	err = json.Unmarshal(text, &value)
+	err = json.Unmarshal(data, &value)
 	if err != nil {
 		return err
 	}
@@ -84,9 +80,9 @@ func (d ShortDate) String() string {
 	return d.Time.Format("0201")
 }
 
-func (d *ShortDate) UnmarshalJSON(text []byte) (err error) {
+func (d *ShortDate) UnmarshalJSON(data []byte) (err error) {
 	var value string
-	err = json.Unmarshal(text, &value)
+	err = json.Unmarshal(data, &value)
 	if err != nil {
 		return err
 	}
@@ -124,9 +120,9 @@ func (t *Time) String() string {
 	return t.Format("20060102150405000")
 }
 
-func (t *Time) UnmarshalJSON(text []byte) (err error) {
+func (t *Time) UnmarshalJSON(data []byte) (err error) {
 	var value string
-	err = json.Unmarshal(text, &value)
+	err = json.Unmarshal(data, &value)
 	if err != nil {
 		return err
 	}
