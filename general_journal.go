@@ -1,9 +1,28 @@
 package datev
 
 import (
+	"errors"
 	"fmt"
+	"time"
+	"unicode/utf8"
 )
 
+func NewCSVHeaderLine() *CSVHeaderLine {
+	return &CSVHeaderLine{
+		DATEVFormatKZ:   "EXTF",
+		Versionsnummer:  510,
+		Datenkategorie:  21,
+		Formatname:      "Buchungsstapel",
+		Formatversion:   7,
+		ErzeugtAm:       &Time{time.Now()},
+		Sachkontenlange: 4,
+		Bezeichnung:     "Buchungen",
+		Buchungstyp:     1,
+		WKZ:             "EUR",
+	}
+}
+
+// http://www.datev.de/dnlexom/client/app/index.html#/document/1036228/D103622800010
 type CSVHeaderLine struct {
 	// vom Datev angegeben
 	// EXTF = für Datei-Formate, die von externen Programmen erstellt wurden
@@ -21,14 +40,14 @@ type CSVHeaderLine struct {
 	// vom Datev angegeben
 	Formatversion int // 5
 
-	ErzeugtAm Time // 6
+	ErzeugtAm *Time // 6
 
 	// Darf nicht gefüllt werden, durch Import gesetzt.
-	Importiert Date // 7
+	Importiert *Date // 7
 
 	// Herkunfts-Kennzeichen
 	// Beim Import wird das Herkunfts-Kennzeichen durch „SV“ (= Stapelverarbeitung) ersetzt.
-	Herkunft string // 88888888
+	Herkunft string // 8
 
 	// Benutzername
 	ExportiertVon string // 9
@@ -48,9 +67,9 @@ type CSVHeaderLine struct {
 	// Kleinste Sachkontenlänge = 4, Grösste Sachkontenlänge = 8
 	Sachkontenlange int // 14
 
-	DatumVom Date // 15
+	DatumVom *Date // 15
 
-	DatumBis Date // 16
+	DatumBis *Date // 16
 
 	// Bezeichnung des Buchungsstapels
 	Bezeichnung string // 17
@@ -67,7 +86,7 @@ type CSVHeaderLine struct {
 	// leer = nicht definiert; wird ab Jahreswechselversion 2016/2017 automatisch festgeschrieben
 	// 0 = keine Festschreibung
 	// 1 = Festschreibung
-	Festschreibung Bool // 21
+	Festschreibung *Bool // 21
 
 	// Währungskennzeichen
 	WKZ string // 22
@@ -89,6 +108,76 @@ type CSVHeaderLine struct {
 
 	// Verarbeitungskennzeichen der abgebenden Anwendung => Bsp. '9/2016'
 	Anwendungsinformation string
+}
+
+func (l CSVHeaderLine) Validate() []error {
+	var errs []error
+
+	if utf8.RuneCountInString(l.DATEVFormatKZ) > 4 {
+		errs = append(errs, errors.New("DATEVFormatKZ has a maximum length of 4"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Versionsnummer)) > 3 {
+		errs = append(errs, errors.New("Versionsnummer has a maximum length of 3"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Datenkategorie)) > 2 {
+		errs = append(errs, errors.New("Datenkategorie has a maximum length of 2"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Formatversion)) > 3 {
+		errs = append(errs, errors.New("Formatversion has a maximum length of 3"))
+	}
+
+	if utf8.RuneCountInString(l.Herkunft) > 2 {
+		errs = append(errs, errors.New("Herkunft has a maximum length of 2"))
+	}
+
+	if utf8.RuneCountInString(l.ExportiertVon) > 25 {
+		errs = append(errs, errors.New("ExportiertVon has a maximum length of 25"))
+	}
+
+	if utf8.RuneCountInString(l.ImportiertVon) > 10 {
+		errs = append(errs, errors.New("ImportiertVon has a maximum length of 10"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Berater)) > 7 {
+		errs = append(errs, errors.New("Berater has a maximum length of 7"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Mandant)) > 5 {
+		errs = append(errs, errors.New("Mandant has a maximum length of 5"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Sachkontenlange)) > 1 {
+		errs = append(errs, errors.New("Sachkontenlange has a maximum length of 1"))
+	}
+
+	if utf8.RuneCountInString(l.Bezeichnung) > 30 {
+		errs = append(errs, errors.New("Bezeichnung has a maximum length of 30"))
+	}
+
+	if utf8.RuneCountInString(l.Diktatkurzel) > 2 {
+		errs = append(errs, errors.New("Diktatkurzel has a maximum length of 2"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Buchungstyp)) > 1 {
+		errs = append(errs, errors.New("Buchungstyp has a maximum length of 1"))
+	}
+
+	if utf8.RuneCountInString(fmt.Sprint(l.Rechnungslegungszweck)) > 2 {
+		errs = append(errs, errors.New("Rechnungslegungszweck has a maximum length of 2"))
+	}
+
+	if utf8.RuneCountInString(l.WKZ) > 3 {
+		errs = append(errs, errors.New("WKZ has a maximum length of 3"))
+	}
+
+	if utf8.RuneCountInString(l.Anwendungsinformation) > 16 {
+		errs = append(errs, errors.New("Anwendungsinformation a maximum length of 16"))
+	}
+
+	return errs
 }
 
 func (e CSVHeaderLine) Headers() []string {
@@ -175,11 +264,13 @@ func (l CSVHeaderLine) StringValues() []string {
 type CSVBookingLine struct {
 	// Beispiel: 1234567890,12
 	// Muss immer ein positiver Wert sein
+	// required
 	Umsatz Decimal // 1
 
 	// Soll-/Haben-Kennzeichnung des Umsatzes bezieht sich auf das Konto, das im Feld Konto angegeben wird:
 	// S = Soll
 	// H = Haben
+	// required
 	SollHaben string // 2
 
 	// ISO-Code der Währung (Dok.-Nr. 1080170); gibt an, welche Währung dem Betrag zugrunde liegt.
@@ -189,11 +280,11 @@ type CSVBookingLine struct {
 	// Der Fremdwährungskurs bestimmt, wie der angegebene Umsatz, der in Fremdwährung übergeben wird, in die Basiswährung umzurechnen ist, wenn es sich um ein Nicht-EWU-Land handelt.
 	// Beispiel: 1123,123456
 	// Achtung: Der Wert 0 ist unzulässig.
-	Kurs Decimal // 4
+	Kurs *Decimal // 4
 
 	// Wenn das Feld Basisumsatz verwendet wird, muss auch das Feld WKZ Basisumsatz gefüllt werden.
 	// Beispiel: 1123123123,12
-	Basisumsatz Decimal // 5
+	Basisumsatz *Decimal // 5
 
 	// Währungskennzeichen der hinterlegten Basiswährung. Wenn das Feld WKZ Basisumsatz verwendet wird, muss auch das Feld Basisumsatz verwendet werden.
 	// ISO-Code beachten (siehe Dok.-Nr.1080170)
@@ -202,7 +293,7 @@ type CSVBookingLine struct {
 	// Sach- oder Personen-Kontonummer Darf max. 8- bzw. max. 9-stellig sein
 	// (abhängig von der Information im Header) Die Personenkontenlänge darf nur
 	// 1 Stelle länger sein als die definierte Sachkontennummernlänge.
-	Kont Int // 7
+	Konto Int // 7
 
 	// Sach- oder Personen-Kontonummer Darf max. 8- bzw. max. 9-stellig sein
 	// (abhängig von der Information im Header) Die Personenkontenlänge darf nur
@@ -216,7 +307,7 @@ type CSVBookingLine struct {
 	// Jahreszahl wird immer in das aktuelle Wirtschaftsjahr importiert, wenn
 	// Tag und Monat des Datums im bebuchbaren Zeitraum liegen, da die
 	// Jahreszahl nicht berücksichtigt wird.
-	Belegdatum string // 10
+	Belegdatum ShortDate // 10
 
 	// Rechnungs-/Belegnummer
 	// Das Belegfeld 1 ist der "Schlüssel" für die Verwaltung von Offenen Posten.
@@ -230,7 +321,7 @@ type CSVBookingLine struct {
 	// Nur bei Zahlungen zulässig.
 	// Beispiel 12123123,12
 	// Achtung: Der Wert 0 ist unzulässig.
-	Skonto Decimal // 13
+	Skonto *Decimal // 13
 
 	Buchungstext string // 14
 
@@ -239,7 +330,7 @@ type CSVBookingLine struct {
 	// true = Postensperre
 	// false/keine Angabe = keine Sperre
 	// Nur in Verbindung mit einer Rechnungsbuchung und Personenkonto (OPOS) relevant.
-	Postensperre bool // 15
+	Postensperre *Bool // 15
 
 	// Adressnummer einer diversen Adresse
 	// Nur in Verbindung mit OPOS relevant.
@@ -247,20 +338,20 @@ type CSVBookingLine struct {
 
 	// Wenn für eine Lastschrift oder Überweisung eine bestimmte Bank des Geschäftspartners genutzt werden soll.
 	// Nur in Verbindung mit OPOS relevant.
-	Geschaftspartnerbank Int // 17
+	Geschaftspartnerbank *Int // 17
 
 	// Der Sachverhalt wird in Rechnungswesen pro verwendet, um Buchungen/Posten als Mahnzins/Mahngebühr zu identifizieren.
 	// Für diese Posten werden z. B. beim Erstellen von Mahnungen keine Mahnzinsen berechnet.
 	// 31 = Mahnzins
 	// 40 = Mahngebühr
 	// Nur in Verbindung mit OPOS relevant.
-	Sachverhalt Int // 18
+	Sachverhalt *Int // 18
 
 	// Hier kann eine Zinssperre übergeben werden; dadurch werden für diesen Posten bei Erstellung einer Mahnung keine Mahnzinsen ermittelt.
 	// Nur in Verbindung mit OPOS relevant.
 	// keine Angabe und 0 = keine Sperre
 	// 1 = Zinssperre
-	Zinssperre int // 19
+	Zinssperre *Int // 19
 
 	// Link auf den Buchungsbeleg, der digital in einem Dokumenten-Management-System (z. B. DATEV Dokumentenablage, DATEV DMS classic) abgelegt wurde.
 	// Der Beleglink hat folgenden Aufbau:
@@ -312,7 +403,7 @@ type CSVBookingLine struct {
 
 	// Im KOST-Mengenfeld wird die Wertgabe zu einer bestimmten Bezugsgröße für eine Kostenstelle erfasst. Diese Bezugsgröße kann z. B. kg, g, cm, m, % sein. Die Bezugsgröße ist definiert in den Kostenrechnungs-Stammdaten.
 	// Beispiel: 123123123,12
-	KostMenge Decimal // 39
+	KostMenge *Decimal // 39
 
 	// Die USt-IdNr. besteht aus:
 	// 2-stelligen Länderkürzel (siehe Dok.-Nr. 1080169; Ausnahme Griechenland: Das Länderkürzel lautet EL)
@@ -323,7 +414,7 @@ type CSVBookingLine struct {
 	// Nur für entsprechende EU-Buchungen:
 	// Der im EU-Bestimmungsland gültige Steuersatz.
 	// Beispiel: 12,12
-	EUSteuersatz Decimal // 41
+	EUSteuersatz *Decimal // 41
 
 	// Für Buchungen, die in einer von der Mandantenstammdaten-Schlüsselung abweichenden Umsatzsteuerart verarbeitet werden sollen, kann die abweichende Versteuerungsart im Buchungssatz übergeben werden:
 	// I = Ist-Versteuerung
@@ -335,19 +426,19 @@ type CSVBookingLine struct {
 	// Sachverhalte gem. § 13b Abs. 1 Satz 1 Nrn. 1.ff UStG
 	// Achtung: Der Wert 0 ist unzulässig.
 	// (siehe Dok.-Nr. 1034915)
-	SachverhaltLL Int // 43
+	SachverhaltLL *Int // 43
 
 	// Steuersatz/Funktion zum L+L-Sachverhalt
 	// Achtung: Der Wert 0 ist unzulässig.
 	// (siehe Dok.-Nr. 1034915)
-	Funktionserganzung Int // 44
+	Funktionserganzung *Int // 44
 
 	// Bei Verwendung des BU-Schlüssels 49 für "andere Steuersätze" muss der steuerliche Sachverhalt mitgegeben werden.
-	BU49Hauptfunktionstyp Int // 45
+	BU49Hauptfunktionstyp *Int // 45
 
-	BU49Hauptfunktionsnummer Int // 46
+	BU49Hauptfunktionsnummer *Int // 46
 
-	BU49Funktionsergänzung Int // 47
+	BU49Funktionsergänzung *Int // 47
 
 	// Zusatzinformationen, die zu Buchungssätzen erfasst werden können.
 	// Diese Zusatzinformationen besitzen den Charakter eines Notizzettels und können frei erfasst werden.
@@ -436,15 +527,15 @@ type CSVBookingLine struct {
 	ZusatzinformationInhalt39 string // 87
 
 	// Wirkt sich nur bei Sachverhalt mit SKR14 Land- und Forstwirtschaft aus, für andere SKR werden die Felder beim Import/Export überlesen bzw. leer exportiert.
-	Stuck Int // 88
+	Stuck *Int // 88
 
-	Gewicht Decimal // 89
+	Gewicht *Decimal // 89
 
 	// OPOS-Informationen kommunal
 	// 1 = Lastschrift
 	// 2 = Mahnung
 	// 3 = Zahlung
-	Zahlweise Int // 90
+	Zahlweise *Int // 90
 
 	// OPOS-Informationen kommunal
 	Forderungsart string // 91
@@ -457,7 +548,7 @@ type CSVBookingLine struct {
 
 	// 1 = Einkauf von Waren
 	// 2 = Erwerb von Roh-Hilfs- und Betriebsstoffen
-	Skontotyp Int // 94
+	Skontotyp *Int // 94
 
 	// Allgemeine Bezeichnung, des Auftrags/Projekts
 	Auftragsnummer string // 95
@@ -472,7 +563,7 @@ type CSVBookingLine struct {
 	Buchungstyp string // 96
 
 	// USt-Schlüssel der späteren Schlussrechnung
-	UStSchlüsselAnzahlungen Int // 97
+	UStSchlüsselAnzahlungen *Int // 97
 
 	// EU-Mitgliedstaat der späteren Schlussrechnung
 	// (siehe Dok.-Nr. 1080169)
@@ -481,15 +572,15 @@ type CSVBookingLine struct {
 	// L+L-Sachverhalt der späteren Schlussrechnung
 	// Sachverhalte gem. § 13b Abs. 1 Satz 1 Nrn. 1.-5. UStG
 	// Achtung: Der Wert 0 ist unzulässig.
-	SachverhaltLLAnzahlungen Int // 99
+	SachverhaltLLAnzahlungen *Int // 99
 
 	// EU-Steuersatz der späteren Schlussrechnung
 	// Nur für entsprechende EU-Buchungen: Der im EU-Bestimmungsland gültige Steuersatz.
 	// Beispiel: 12,12
-	EUSteuersatzAnzahlungen Decimal // 100
+	EUSteuersatzAnzahlungen *Decimal // 100
 
 	// Erlöskonto der späteren Schlussrechnung
-	ErloskontoAnzahlungen Int // 101
+	ErloskontoAnzahlungen *Int // 101
 
 	// Wird beim Import durch SV (Stapelverarbeitung) ersetzt.
 	HerkunftKz string // 102
@@ -509,7 +600,7 @@ type CSVBookingLine struct {
 
 	Gesellschaftername string //107
 
-	Beteiligtennummer Int // 108
+	Beteiligtennummer *Int // 108
 
 	Identifikationsnummer string // 109
 
@@ -521,7 +612,7 @@ type CSVBookingLine struct {
 	Bezeichnung string // 112
 
 	// SoBil-Buchung
-	Kennzeichen Int // 113
+	Kennzeichen *Int // 113
 
 	// leer = nicht definiert; wird ab Jahreswechselversion 2016/2017 automatisch festgeschrieben
 	// 0 = keine Festschreibung
@@ -536,39 +627,129 @@ type CSVBookingLine struct {
 	DatumZuord Date // 116
 }
 
+func (l CSVBookingLine) Validate() []error {
+	var errs []error
+	return errs
+}
+
 func (e CSVBookingLine) Headers() []string {
 	return []string{
-		"DATEV-Format-KZ",
-		"Versionsnummer",
-		"Datenkategorie",
-		"Formatname",
-		"Formatversion",
-		"Erzeugt am",
-		"Importiert",
-		"Herkunft",
-		"Exportiert von",
-		"Importiert von",
-		"Berater",
-		"Mandant",
-		"WJ-Beginn",
-		"Sachkontenlänge",
-		"Datum vom",
-		"Datum bis",
-		"Bezeichnung",
-		"Diktatkürzel",
+		"Umsatz (ohne Soll/Haben-Kz)",
+		"Soll/Haben-Kennzeichen",
+		"WKZ Umsatz",
+		"Kurs",
+		"Basisumsatz",
+		"WKZ Basisumsatz",
+		"Konto",
+		"Gegenkonto (ohne BU-Schlüssel)",
+		"BU-Schlüssel",
+		"Belegdatum",
+		"Belegfeld 1",
+		"Belegfeld 2",
+		"Skonto",
+		"Buchungstext",
+		"Postensperre",
+		"Diverse Adressnummer",
+		"Geschäftspartnerbank",
+		"Sachverhalt",
+		"Zinssperre",
+		"Beleglink",
+		"Beleginfo Art 1",
+		"Beleginfo Inhalt 1",
+		"Beleginfo Art 2",
+		"Beleginfo Inhalt 2",
+		"Beleginfo Art 3",
+		"Beleginfo Inhalt 3",
+		"Beleginfo Art 4",
+		"Beleginfo Inhalt 4",
+		"Beleginfo Art 5",
+		"Beleginfo Inhalt 5",
+		"Beleginfo Art 6",
+		"Beleginfo Inhalt 6",
+		"Beleginfo Art 7",
+		"Beleginfo Inhalt 7",
+		"Beleginfo Art 8",
+		"Beleginfo Inhalt 8",
+		"KOST1 Kostenstelle",
+		"KOST2 Kostenstelle",
+		"Kost Menge",
+		"EU-Land u. USt-IdNr.",
+		"EU-Steuersatz",
+		"Abw. Versteuerungsart",
+		"Sachverhalt L+L",
+		"Funktionsergänzung L+L",
+		"BU 49 Hauptfunktionstyp",
+		"BU 49 Hauptfunktionsnummer",
+		"BU 49 Funktionsergänzung",
+		"Zusatzinformation Art 1",
+		"Zusatzinformation Inhalt 1",
+		"Zusatzinformation Art 2",
+		"Zusatzinformation Inhalt 2",
+		"Zusatzinformation Art 3",
+		"Zusatzinformation Inhalt 3",
+		"Zusatzinformation Art 4",
+		"Zusatzinformation Inhalt 4",
+		"Zusatzinformation Art 5",
+		"Zusatzinformation Inhalt 5",
+		"Zusatzinformation Art 6",
+		"Zusatzinformation Inhalt 6",
+		"Zusatzinformation Art 7",
+		"Zusatzinformation Inhalt 7",
+		"Zusatzinformation Art 8",
+		"Zusatzinformation Inhalt 8",
+		"Zusatzinformation Art 9",
+		"Zusatzinformation Inhalt 9",
+		"Zusatzinformation Art 10",
+		"Zusatzinformation Inhalt 10",
+		"Zusatzinformation Art 11",
+		"Zusatzinformation Inhalt 11",
+		"Zusatzinformation Art 12",
+		"Zusatzinformation Inhalt 12",
+		"Zusatzinformation Art 13",
+		"Zusatzinformation Inhalt 13",
+		"Zusatzinformation Art 14",
+		"Zusatzinformation Inhalt 14",
+		"Zusatzinformation Art 15",
+		"Zusatzinformation Inhalt 15",
+		"Zusatzinformation Art 16",
+		"Zusatzinformation Inhalt 16",
+		"Zusatzinformation Art 17",
+		"Zusatzinformation Inhalt 17",
+		"Zusatzinformation Art 18",
+		"Zusatzinformation Inhalt 18",
+		"Zusatzinformation Art 19",
+		"Zusatzinformation Inhalt 19",
+		"Zusatzinformation Art 20",
+		"Zusatzinformation Inhalt 20",
+		"Stück",
+		"Gewicht",
+		"Zahlweise",
+		"Forderungsart",
+		"Veranlagungsjahr",
+		"Zugeordnete Fälligkeit",
+		"Skontotyp",
+		"Auftragsnummer",
 		"Buchungstyp",
-		"Rechnungslegungszweck",
+		"USt-Schlüssel (Anzahlungen)",
+		"EU-Mitgliedstaat (Anzahlungen)",
+		"Sachverhalt L+L (Anzahlungen)",
+		"EU-Steuersatz (Anzahlungen)",
+		"Erlöskonto (Anzahlungen)",
+		"Herkunft-Kz",
+		"Leerfeld",
+		"KOST-Datum",
+		"SEPA-Mandatsreferenz",
+		"Skontosperre",
+		"Gesellschaftername",
+		"Beteiligtennummer",
+		"Identifikationsnummer",
+		"Zeichnernummer",
+		"Postensperre bis",
+		"Bezeichnung",
+		"Kennzeichen",
 		"Festschreibung",
-		"WKZ",
-		"reserviert",
-		"Derivatskennzeichen",
-		"reserviert 2",
-		"reserviert 3",
-		"SKR",
-		"Branchenlösung-Id",
-		"reserviert 4",
-		"reserviert 5",
-		"Anwendungsinformation",
+		"Leistungsdatum",
+		"Datum Zuord.",
 	}
 }
 
@@ -580,7 +761,7 @@ func (l CSVBookingLine) Values() []interface{} {
 		l.Kurs,
 		l.Basisumsatz,
 		l.WKZBasisumsatz,
-		l.Kont,
+		l.Konto,
 		l.Gegenkonto,
 		l.BUSchlussel,
 		l.Belegdatum,

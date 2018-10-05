@@ -10,14 +10,22 @@ import (
 
 type Int int
 
-func (i Int) String() string {
-	return fmt.Sprint(int(i))
+func (i *Int) String() string {
+	if i == nil {
+		return ""
+	}
+
+	return fmt.Sprint(int(*i))
 }
 
 type Decimal float64
 
-func (d Decimal) String() string {
-	return fmt.Sprint(float64(d))
+func (d *Decimal) String() string {
+	if d == nil {
+		return ""
+	}
+
+	return fmt.Sprintf("%.2f", float64(*d))
 }
 
 type Date struct {
@@ -29,7 +37,10 @@ func (d Date) MarshalText() ([]byte, error) {
 	return []byte(d.String()), nil
 }
 
-func (d Date) String() string {
+func (d *Date) String() string {
+	if d == nil {
+		return ""
+	}
 	return d.Time.Format("20060102")
 }
 
@@ -54,13 +65,85 @@ func (d *Date) UnmarshalJSON(text []byte) (err error) {
 		return nil
 	}
 
-	// try fivaldi date format
+	// try iso8601 date format
+	d.Time, err = time.Parse("2006-02-01", value)
+	if err == nil {
+		return nil
+	}
+
+	// try datev date format
+	d.Time, err = time.Parse("20060102", value)
+	return err
+}
+
+type ShortDate struct {
+	time.Time
+}
+
+func (d ShortDate) String() string {
+	return d.Time.Format("0201")
+}
+
+func (d *ShortDate) UnmarshalJSON(text []byte) (err error) {
+	var value string
+	err = json.Unmarshal(text, &value)
+	if err != nil {
+		return err
+	}
+
+	if value == "" {
+		return nil
+	}
+
+	// first try standard date
+	d.Time, err = time.Parse(time.RFC3339, value)
+	if err == nil {
+		return nil
+	}
+
+	// try iso8601 date format
+	d.Time, err = time.Parse("2006-02-01", value)
+	if err == nil {
+		return nil
+	}
+
+	// try datev date format
 	d.Time, err = time.Parse("20060102", value)
 	return err
 }
 
 type Time struct {
 	time.Time
+}
+
+func (t *Time) String() string {
+	if t == nil {
+		return ""
+	}
+
+	return t.Format("20060102150405000")
+}
+
+func (t *Time) UnmarshalJSON(text []byte) (err error) {
+	var value string
+	err = json.Unmarshal(text, &value)
+	if err != nil {
+		return err
+	}
+
+	if value == "" {
+		return nil
+	}
+
+	// first try standard date
+	t.Time, err = time.Parse(time.RFC3339, value)
+	if err == nil {
+		return nil
+	}
+
+	// try datev time format
+	t.Time, err = time.Parse("20060102150405000", value)
+	return err
 }
 
 type Amount float64
@@ -83,5 +166,16 @@ func (a Amount) MarshalText() ([]byte, error) {
 }
 
 type Bool bool
+
+func (b *Bool) String() string {
+	if b == nil {
+		return ""
+	}
+
+	if *b {
+		return "1"
+	}
+	return "0"
+}
 
 type Year int
