@@ -62,7 +62,7 @@ func (d *Date) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	// try iso8601 date format
-	d.Time, err = time.Parse("2006-02-01", value)
+	d.Time, err = time.Parse("2006-01-02", value)
 	if err == nil {
 		return nil
 	}
@@ -98,7 +98,7 @@ func (d *ShortDate) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	// try iso8601 date format
-	d.Time, err = time.Parse("2006-02-01", value)
+	d.Time, err = time.Parse("2006-01-02", value)
 	if err == nil {
 		return nil
 	}
