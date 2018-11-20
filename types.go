@@ -32,8 +32,8 @@ type Date struct {
 	time.Time
 }
 
-func (d *Date) String() string {
-	if d == nil {
+func (d Date) String() string {
+	if d.IsZero() {
 		return ""
 	}
 	return d.Time.Format("20060102")
