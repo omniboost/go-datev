@@ -32,7 +32,10 @@ type Date struct {
 	time.Time
 }
 
-func (d Date) String() string {
+func (d *Date) String() string {
+	if d == nil {
+		return ""
+	}
 	if d.IsZero() {
 		return ""
 	}
