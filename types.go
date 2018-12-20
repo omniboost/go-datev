@@ -20,12 +20,9 @@ func (i *Int) String() string {
 
 type Decimal float64
 
-func (d *Decimal) String() string {
-	if d == nil {
-		return ""
-	}
-
-	return fmt.Sprintf("%.2f", float64(*d))
+func (d Decimal) String() string {
+	s := fmt.Sprintf("%.2f", float64(d))
+	return strings.Replace(s, ".", ",", -1)
 }
 
 type Date struct {
