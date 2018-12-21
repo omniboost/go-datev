@@ -280,11 +280,11 @@ type CSVBookingLine struct {
 	// Der Fremdwährungskurs bestimmt, wie der angegebene Umsatz, der in Fremdwährung übergeben wird, in die Basiswährung umzurechnen ist, wenn es sich um ein Nicht-EWU-Land handelt.
 	// Beispiel: 1123,123456
 	// Achtung: Der Wert 0 ist unzulässig.
-	Kurs *Decimal // 4
+	Kurs Decimal // 4
 
 	// Wenn das Feld Basisumsatz verwendet wird, muss auch das Feld WKZ Basisumsatz gefüllt werden.
 	// Beispiel: 1123123123,12
-	Basisumsatz *Decimal // 5
+	Basisumsatz Decimal // 5
 
 	// Währungskennzeichen der hinterlegten Basiswährung. Wenn das Feld WKZ Basisumsatz verwendet wird, muss auch das Feld Basisumsatz verwendet werden.
 	// ISO-Code beachten (siehe Dok.-Nr.1080170)
@@ -321,7 +321,7 @@ type CSVBookingLine struct {
 	// Nur bei Zahlungen zulässig.
 	// Beispiel 12123123,12
 	// Achtung: Der Wert 0 ist unzulässig.
-	Skonto *Decimal // 13
+	Skonto Decimal // 13
 
 	Buchungstext string // 14
 
@@ -403,7 +403,7 @@ type CSVBookingLine struct {
 
 	// Im KOST-Mengenfeld wird die Wertgabe zu einer bestimmten Bezugsgröße für eine Kostenstelle erfasst. Diese Bezugsgröße kann z. B. kg, g, cm, m, % sein. Die Bezugsgröße ist definiert in den Kostenrechnungs-Stammdaten.
 	// Beispiel: 123123123,12
-	KostMenge *Decimal // 39
+	KostMenge Decimal // 39
 
 	// Die USt-IdNr. besteht aus:
 	// 2-stelligen Länderkürzel (siehe Dok.-Nr. 1080169; Ausnahme Griechenland: Das Länderkürzel lautet EL)
@@ -414,7 +414,7 @@ type CSVBookingLine struct {
 	// Nur für entsprechende EU-Buchungen:
 	// Der im EU-Bestimmungsland gültige Steuersatz.
 	// Beispiel: 12,12
-	EUSteuersatz *Decimal // 41
+	EUSteuersatz Decimal // 41
 
 	// Für Buchungen, die in einer von der Mandantenstammdaten-Schlüsselung abweichenden Umsatzsteuerart verarbeitet werden sollen, kann die abweichende Versteuerungsart im Buchungssatz übergeben werden:
 	// I = Ist-Versteuerung
@@ -529,7 +529,7 @@ type CSVBookingLine struct {
 	// Wirkt sich nur bei Sachverhalt mit SKR14 Land- und Forstwirtschaft aus, für andere SKR werden die Felder beim Import/Export überlesen bzw. leer exportiert.
 	Stuck *Int // 88
 
-	Gewicht *Decimal // 89
+	Gewicht Decimal // 89
 
 	// OPOS-Informationen kommunal
 	// 1 = Lastschrift
@@ -577,7 +577,7 @@ type CSVBookingLine struct {
 	// EU-Steuersatz der späteren Schlussrechnung
 	// Nur für entsprechende EU-Buchungen: Der im EU-Bestimmungsland gültige Steuersatz.
 	// Beispiel: 12,12
-	EUSteuersatzAnzahlungen *Decimal // 100
+	EUSteuersatzAnzahlungen Decimal // 100
 
 	// Erlöskonto der späteren Schlussrechnung
 	ErloskontoAnzahlungen *Int // 101

@@ -21,6 +21,9 @@ func (i *Int) String() string {
 type Decimal float64
 
 func (d Decimal) String() string {
+	if float64(d) == 0 {
+		return ""
+	}
 	s := fmt.Sprintf("%.2f", float64(d))
 	return strings.Replace(s, ".", ",", -1)
 }
