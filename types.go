@@ -107,7 +107,7 @@ func (d *ShortDate) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	// try datev date format
-	d.Time, err = time.Parse("20060102", value)
+	d.Time, err = time.Parse("0201", value)
 	return err
 }
 
