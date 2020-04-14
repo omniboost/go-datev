@@ -56,7 +56,7 @@ type CSVHeaderLine struct {
 	ImportiertVon string // 10
 
 	// Beraternummer
-	Berater int // 11
+	Berater string // 11
 
 	// Mandantennummer
 	Mandant int // 12
@@ -141,7 +141,7 @@ func (l CSVHeaderLine) Validate() []error {
 		errs = append(errs, errors.New("ImportiertVon has a maximum length of 10"))
 	}
 
-	if utf8.RuneCountInString(fmt.Sprint(l.Berater)) > 7 {
+	if utf8.RuneCountInString(l.Berater) > 7 {
 		errs = append(errs, errors.New("Berater has a maximum length of 7"))
 	}
 
