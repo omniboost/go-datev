@@ -59,7 +59,7 @@ type CSVHeaderLine struct {
 	Berater string // 11
 
 	// Mandantennummer
-	Mandant int // 12
+	Mandant string // 12
 
 	// Wirtschaftsjahresbeginn
 	WJBeginn *Date // 13
@@ -145,7 +145,7 @@ func (l CSVHeaderLine) Validate() []error {
 		errs = append(errs, errors.New("Berater has a maximum length of 7"))
 	}
 
-	if utf8.RuneCountInString(fmt.Sprint(l.Mandant)) > 5 {
+	if utf8.RuneCountInString(l.Mandant) > 5 {
 		errs = append(errs, errors.New("Mandant has a maximum length of 5"))
 	}
 
