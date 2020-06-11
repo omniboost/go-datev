@@ -81,10 +81,10 @@ type StammdatenLine struct {
 	KennzKorrespondenzadresse string // 26
 
 	// Format: TTMMJJJJ
-	AdresseGultigVon Date // 27
+	AdresseGultigVon *Date // 27
 
 	// Format: TTMMJJJJ
-	AdresseGultigBis Date // 28
+	AdresseGultigBis *Date // 28
 
 	// Standard-Telefonnummer
 	Telefon string // 29
@@ -120,10 +120,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb1 string // 49
 
 	// Format: TTMMJJJJ
-	Bankverb1GultigVon Date // 50
+	Bankverb1GultigVon *Date // 50
 
 	// Format: TTMMJJJJ
-	Bankverb1GultigBis Date // 51
+	Bankverb1GultigBis *Date // 51
 
 	Bankleitzahl2    string // 52
 	Bankbezeichnung2 string // 53
@@ -170,10 +170,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb3 string // 71
 
 	// Format: TTMMJJJJ
-	Bankverb3GultigVon Date // 72
+	Bankverb3GultigVon *Date // 72
 
 	// Format: TTMMJJJJ
-	Bankverb3GultigBis Date // 73
+	Bankverb3GultigBis *Date // 73
 
 	Bankleitzahl4      string // 74
 	Bankbezeichnung4   string // 75
@@ -193,10 +193,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb string // 82
 
 	// Format: TTMMJJJJ
-	Bankverb4GultigVon Date // 83
+	Bankverb4GultigVon *Date // 83
 
 	// Format: TTMMJJJJ
-	Bankverb4GultigBis Date // 84
+	Bankverb4GultigBis *Date // 84
 
 	Bankleitzahl5    string // 85
 	Bankbezeichnung5 string // 86
@@ -218,10 +218,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb5 string // 93
 
 	// Format: TTMMJJJJ
-	Bankverb5GultigVon Date // 94
+	Bankverb5GultigVon *Date // 94
 
 	// Format: TTMMJJJJ
-	Bankverb5GultigBis Date // 95
+	Bankverb5GultigBis *Date // 95
 
 	Leerfeld11  string // 96
 	Briefanrede string // 97
@@ -439,10 +439,10 @@ type StammdatenLine struct {
 	AbwZustellbezeichnung2Rechnungsadresse string // 162
 
 	// Format: TTMMJJJJ
-	AdresseGultigVonRechnungsadresse Date // 163
+	AdresseGultigVonRechnungsadresse *Date // 163
 
 	// Format: TTMMJJJJ
-	AdresseGultigBisRechnungsadresse Date // 164
+	AdresseGultigBisRechnungsadresse *Date // 164
 
 	Bankleitzahl6    string // 165
 	Bankbezeichnung6 string // 166
@@ -464,10 +464,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb6 string // 173
 
 	// Format: TTMMJJJJ
-	Bankverb6GultigVon Date // 174
+	Bankverb6GultigVon *Date // 174
 
 	// Format: TTMMJJJJ
-	Bankverb6GultigBis Date // 175
+	Bankverb6GultigBis *Date // 175
 
 	Bankleitzahl7    string // 176
 	Bankbezeichnung7 string // 177
@@ -489,9 +489,9 @@ type StammdatenLine struct {
 	KennzHauptBankverb7 string // 184
 
 	// Format: TTMMJJJJ
-	Bankverb7GultigVon Date // 185
+	Bankverb7GultigVon *Date // 185
 	// Format: TTMMJJJJ
-	Bankverb7GultigBis Date // 186
+	Bankverb7GultigBis *Date // 186
 
 	Bankleitzahl8    string // 187
 	Bankbezeichnung8 string // 188
@@ -513,10 +513,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb8 string // 195
 
 	// Format: TTMMJJJJ
-	Bankverb8GultigVon Date // 196
+	Bankverb8GultigVon *Date // 196
 
 	// Format: TTMMJJJJ
-	Bankverb8GultigBis Date // 197
+	Bankverb8GultigBis *Date // 197
 
 	Bankleitzahl9    string // 198
 	Bankbezeichnung9 string // 199
@@ -537,10 +537,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb9 string // 206
 
 	// Format: TTMMJJJJ
-	Bankverb9GultigVon Date // 207
+	Bankverb9GultigVon *Date // 207
 
 	// Format: TTMMJJJJ
-	Bankverb9GultigBis Date // 208
+	Bankverb9GultigBis *Date // 208
 
 	Bankleitzahl10    string // 209
 	Bankbezeichnung10 string // 210
@@ -562,10 +562,10 @@ type StammdatenLine struct {
 	KennzHauptBankverb10 string // 217
 
 	// Format: TTMMJJJJ
-	Bankverb10GultigVon Date // 218
+	Bankverb10GultigVon *Date // 218
 
 	// Format: TTMMJJJJ
-	Bankverb10GultigBis Date // 219
+	Bankverb10GultigBis *Date // 219
 
 	// Achtung: Wird bei Verwendung zentralisierter Geschäftspartner von DATEV
 	// überschrieben.
@@ -596,13 +596,13 @@ type StammdatenLine struct {
 	VerknupftesOPOSxKonto string // 232
 
 	// Format: TTMMJJJJ
-	MahnsperreBis Date // 233
+	MahnsperreBis *Date // 233
 
 	// Format: TTMMJJJJ
-	LastschriftsperreBis Date // 234
+	LastschriftsperreBis *Date // 234
 
 	// Format: TTMMJJJJ
-	ZahlungssperreBis Date // 235
+	ZahlungssperreBis *Date // 235
 
 	// 0 = nein
 	// 1 = ja
