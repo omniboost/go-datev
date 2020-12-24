@@ -758,7 +758,7 @@ func (e CSVBookingLine) Headers() []string {
 		"Zusatzinformation Art 38",
 		"Zusatzinformation Inhalt 38",
 		"Zusatzinformation Art 39",
-		"Zusatzinformation Inhalt 39",
+		"Zusatzinformation Inhalt 36",
 		"Stück",
 		"Gewicht",
 		"Zahlweise",
@@ -944,7 +944,7 @@ func (l CSVBookingLine) Values() []interface{} {
 		&l.Postensperreis,
 		l.Bezeichnung,
 		l.Kennzeichen,
-		l.Festschreibung,
+		&l.Festschreibung,
 		&l.Leistungsdatum,
 		&l.DatumZuord,
 	}
