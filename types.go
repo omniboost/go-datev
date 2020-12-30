@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -178,3 +179,10 @@ func (b *Bool) String() string {
 }
 
 type Year int
+
+func (y *Year) String() string {
+	if y == nil {
+		return ""
+	}
+	return strconv.Itoa(int(*y))
+}
