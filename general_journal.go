@@ -449,82 +449,44 @@ type CSVBookingLine struct {
 	// Informationsinhalt: Buchungsspezifische Inhalte zu den oben genannten Informationsarten.
 	ZusatzinformationArt1     string // 48
 	ZusatzinformationInhalt1  string // 49
-	ZusatzinformationArt2     string // 49
-	ZusatzinformationInhalt2  string // 50
-	ZusatzinformationArt3     string // 50
-	ZusatzinformationInhalt3  string // 51
-	ZusatzinformationArt4     string // 51
-	ZusatzinformationInhalt4  string // 52
-	ZusatzinformationArt5     string // 52
-	ZusatzinformationInhalt5  string // 53
-	ZusatzinformationArt6     string // 53
-	ZusatzinformationInhalt6  string // 54
-	ZusatzinformationArt7     string // 54
-	ZusatzinformationInhalt7  string // 55
-	ZusatzinformationArt8     string // 55
-	ZusatzinformationInhalt8  string // 56
-	ZusatzinformationArt9     string // 56
-	ZusatzinformationInhalt9  string // 57
-	ZusatzinformationArt10    string // 57
-	ZusatzinformationInhalt10 string // 58
-	ZusatzinformationArt11    string // 58
-	ZusatzinformationInhalt11 string // 59
-	ZusatzinformationArt12    string // 59
-	ZusatzinformationInhalt12 string // 60
-	ZusatzinformationArt13    string // 60
-	ZusatzinformationInhalt13 string // 61
-	ZusatzinformationArt14    string // 61
-	ZusatzinformationInhalt14 string // 62
-	ZusatzinformationArt15    string // 62
-	ZusatzinformationInhalt15 string // 63
-	ZusatzinformationArt16    string // 63
-	ZusatzinformationInhalt16 string // 64
-	ZusatzinformationArt17    string // 64
-	ZusatzinformationInhalt17 string // 65
-	ZusatzinformationArt18    string // 65
-	ZusatzinformationInhalt18 string // 66
-	ZusatzinformationArt19    string // 66
-	ZusatzinformationInhalt19 string // 67
-	ZusatzinformationArt20    string // 67
-	ZusatzinformationInhalt20 string // 68
-	ZusatzinformationArt21    string // 68
-	ZusatzinformationInhalt21 string // 69
-	ZusatzinformationArt22    string // 69
-	ZusatzinformationInhalt22 string // 70
-	ZusatzinformationArt23    string // 70
-	ZusatzinformationInhalt23 string // 71
-	ZusatzinformationArt24    string // 71
-	ZusatzinformationInhalt24 string // 72
-	ZusatzinformationArt25    string // 72
-	ZusatzinformationInhalt25 string // 73
-	ZusatzinformationArt26    string // 73
-	ZusatzinformationInhalt26 string // 74
-	ZusatzinformationArt27    string // 74
-	ZusatzinformationInhalt27 string // 75
-	ZusatzinformationArt28    string // 75
-	ZusatzinformationInhalt28 string // 76
-	ZusatzinformationArt29    string // 76
-	ZusatzinformationInhalt29 string // 77
-	ZusatzinformationArt30    string // 77
-	ZusatzinformationInhalt30 string // 78
-	ZusatzinformationArt31    string // 78
-	ZusatzinformationInhalt31 string // 79
-	ZusatzinformationArt32    string // 79
-	ZusatzinformationInhalt32 string // 80
-	ZusatzinformationArt33    string // 80
-	ZusatzinformationInhalt33 string // 81
-	ZusatzinformationArt34    string // 81
-	ZusatzinformationInhalt34 string // 82
-	ZusatzinformationArt35    string // 82
-	ZusatzinformationInhalt35 string // 83
-	ZusatzinformationArt36    string // 83
-	ZusatzinformationInhalt36 string // 84
-	ZusatzinformationArt37    string // 84
-	ZusatzinformationInhalt37 string // 85
-	ZusatzinformationArt38    string // 85
-	ZusatzinformationInhalt38 string // 86
-	ZusatzinformationArt39    string // 86
-	ZusatzinformationInhalt39 string // 87
+	ZusatzinformationArt2     string // 50
+	ZusatzinformationInhalt2  string // 51
+	ZusatzinformationArt3     string // 52
+	ZusatzinformationInhalt3  string // 53
+	ZusatzinformationArt4     string // 54
+	ZusatzinformationInhalt4  string // 55
+	ZusatzinformationArt5     string // 56
+	ZusatzinformationInhalt5  string // 57
+	ZusatzinformationArt6     string // 58
+	ZusatzinformationInhalt6  string // 59
+	ZusatzinformationArt7     string // 60
+	ZusatzinformationInhalt7  string // 61
+	ZusatzinformationArt8     string // 62
+	ZusatzinformationInhalt8  string // 63
+	ZusatzinformationArt9     string // 64
+	ZusatzinformationInhalt9  string // 65
+	ZusatzinformationArt10    string // 66
+	ZusatzinformationInhalt10 string // 67
+	ZusatzinformationArt11    string // 68
+	ZusatzinformationInhalt11 string // 69
+	ZusatzinformationArt12    string // 70
+	ZusatzinformationInhalt12 string // 71
+	ZusatzinformationArt13    string // 72
+	ZusatzinformationInhalt13 string // 73
+	ZusatzinformationArt14    string // 74
+	ZusatzinformationInhalt14 string // 75
+	ZusatzinformationArt15    string // 76
+	ZusatzinformationInhalt15 string // 77
+	ZusatzinformationArt16    string // 78
+	ZusatzinformationInhalt16 string // 79
+	ZusatzinformationArt17    string // 80
+	ZusatzinformationInhalt17 string // 81
+	ZusatzinformationArt18    string // 82
+	ZusatzinformationInhalt18 string // 83
+	ZusatzinformationArt19    string // 84
+	ZusatzinformationInhalt19 string // 85
+	ZusatzinformationArt20    string // 86
+	ZusatzinformationInhalt20 string // 87
 
 	// Wirkt sich nur bei Sachverhalt mit SKR14 Land- und Forstwirtschaft aus, für andere SKR werden die Felder beim Import/Export überlesen bzw. leer exportiert.
 	Stuck *Int // 88
@@ -880,44 +842,6 @@ func (l CSVBookingLine) Values() []interface{} {
 		l.ZusatzinformationInhalt19,
 		l.ZusatzinformationArt20,
 		l.ZusatzinformationInhalt20,
-		l.ZusatzinformationArt21,
-		l.ZusatzinformationInhalt21,
-		l.ZusatzinformationArt22,
-		l.ZusatzinformationInhalt22,
-		l.ZusatzinformationArt23,
-		l.ZusatzinformationInhalt23,
-		l.ZusatzinformationArt24,
-		l.ZusatzinformationInhalt24,
-		l.ZusatzinformationArt25,
-		l.ZusatzinformationInhalt25,
-		l.ZusatzinformationArt26,
-		l.ZusatzinformationInhalt26,
-		l.ZusatzinformationArt27,
-		l.ZusatzinformationInhalt27,
-		l.ZusatzinformationArt28,
-		l.ZusatzinformationInhalt28,
-		l.ZusatzinformationArt29,
-		l.ZusatzinformationInhalt29,
-		l.ZusatzinformationArt30,
-		l.ZusatzinformationInhalt30,
-		l.ZusatzinformationArt31,
-		l.ZusatzinformationInhalt31,
-		l.ZusatzinformationArt32,
-		l.ZusatzinformationInhalt32,
-		l.ZusatzinformationArt33,
-		l.ZusatzinformationInhalt33,
-		l.ZusatzinformationArt34,
-		l.ZusatzinformationInhalt34,
-		l.ZusatzinformationArt35,
-		l.ZusatzinformationInhalt35,
-		l.ZusatzinformationArt36,
-		l.ZusatzinformationInhalt36,
-		l.ZusatzinformationArt37,
-		l.ZusatzinformationInhalt37,
-		l.ZusatzinformationArt38,
-		l.ZusatzinformationInhalt38,
-		l.ZusatzinformationArt39,
-		l.ZusatzinformationInhalt39,
 		l.Stuck,
 		l.Gewicht,
 		l.Zahlweise,
