@@ -558,7 +558,7 @@ type CSVBookingLine struct {
 
 	// 0 = keine Skontosperre
 	// 1 = Skontosperre
-	Skontosperre Bool // 106
+	Skontosperre *Bool // 106
 
 	Gesellschaftername string //107
 
