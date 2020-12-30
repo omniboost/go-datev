@@ -503,7 +503,7 @@ type CSVBookingLine struct {
 	Forderungsart string // 91
 
 	// OPOS-Informationen kommunal
-	Veranlagungsjahr Year // 92
+	Veranlagungsjahr *Year // 92
 
 	// OPOS-Informationen kommunal
 	ZugeordneteFalligkeit Date // 93
