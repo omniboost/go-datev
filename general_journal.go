@@ -298,7 +298,7 @@ type CSVBookingLine struct {
 	// Sach- oder Personen-Kontonummer Darf max. 8- bzw. max. 9-stellig sein
 	// (abhängig von der Information im Header) Die Personenkontenlänge darf nur
 	// 1 Stelle länger sein als die definierte Sachkontennummernlänge.
-	Gegenkonto Int // 8
+	Gegenkonto *Int // 8
 
 	// Steuerschlüssel und/oder Berichtigungsschlüssel
 	BUSchlussel string // 9
