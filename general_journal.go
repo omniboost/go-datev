@@ -17,7 +17,7 @@ func NewCSVHeaderLine() *CSVHeaderLine {
 		ErzeugtAm:       &Time{time.Now()},
 		Sachkontenlange: 4,
 		Bezeichnung:     "Buchungen",
-		Buchungstyp:     1,
+		Buchungstyp:     NewInt(1),
 		WKZ:             "EUR",
 	}
 }
@@ -78,10 +78,10 @@ type CSVHeaderLine struct {
 	Diktatkurzel string // 18
 
 	// 1 = Finanzbuchhaltung, 2 = Jahresabschluss
-	Buchungstyp int // 19
+	Buchungstyp *Int // 19
 
 	// 0 oder leer = Rechnungslegungszweckunabhängig
-	Rechnungslegungszweck int // 20
+	Rechnungslegungszweck *Int // 20
 
 	// leer = nicht definiert; wird ab Jahreswechselversion 2016/2017 automatisch festgeschrieben
 	// 0 = keine Festschreibung
@@ -843,4 +843,9 @@ func (l CSVBookingLine) StringValues() []string {
 		st[k] = fmt.Sprint(v)
 	}
 	return st
+}
+
+func NewInt(v int) *Int {
+	v2 := Int(v)
+	return &v2
 }
