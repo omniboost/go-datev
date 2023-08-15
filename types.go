@@ -112,6 +112,45 @@ func (d *ShortDate) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
+type MediumDate struct {
+	time.Time
+}
+
+func (d MediumDate) String() string {
+	return d.Time.Format("02012006")
+}
+
+func (d *MediumDate) UnmarshalJSON(data []byte) (err error) {
+	var value string
+	err = json.Unmarshal(data, &value)
+	if err != nil {
+		return err
+	}
+
+	if value == "" {
+		return nil
+	}
+
+	// first try standard date
+	d.Time, err = time.Parse(time.RFC3339, value)
+	if err == nil {
+		return nil
+	}
+
+	// try iso8601 date format
+	d.Time, err = time.Parse("2006-01-02", value)
+	if err == nil {
+		return nil
+	}
+
+	// try datev date format
+	d.Time, err = time.Parse("02012006", value)
+	if err == nil {
+		return nil
+	}
+	return err
+}
+
 type Time struct {
 	time.Time
 }

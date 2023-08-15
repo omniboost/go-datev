@@ -551,7 +551,7 @@ type CSVBookingLine struct {
 	Leerfeld string // 103
 
 	// Format TTMMJJJJ
-	KostDatum Date // 104
+	KostDatum MediumDate // 104
 
 	// Vom Zahlungsempfänger individuell vergebenes Kennzeichen eines Mandats (z. B. Rechnungs- oder Kundennummer).
 	SEPAMandatsreferenz string // 105
