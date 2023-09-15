@@ -190,7 +190,7 @@ type StammdatenLine struct {
 	// 0 = Nein
 	// Nur eine Bankverbindung eines Debitoren oder Kreditoren kann als
 	// Haupt-Bankverbindung gekennzeichnet werden.
-	KennzHauptBankverb string // 82
+	KennzHauptBankverb4 string // 82
 
 	// Format: TTMMJJJJ
 	Bankverb4GultigVon *Date // 83
@@ -203,7 +203,7 @@ type StammdatenLine struct {
 	BankkontoNummer5 string // 87
 
 	// ISO-Code beachten (siehe Dok.-Nr. 1080169)
-	Länderkennzeichen5 string // 88
+	Landerkennzeichen5 string // 88
 
 	IBAN5            string // 89
 	Leerfeld5        string // 90
@@ -452,7 +452,7 @@ type StammdatenLine struct {
 	Landerkennzeichen6 string // 168
 
 	IBAN6            string // 169
-	Leerfel6         string // 170
+	Leerfeld6         string // 170
 	SWIFTCode6       string // 171
 	AbwKontoinhaber6 string // 172
 
@@ -1014,13 +1014,13 @@ func (l StammdatenLine) Values() []interface{} {
 		l.Leerfeld4,                              // 79
 		l.SWIFTCode4,                             // 80
 		l.AbwKontoinhaber4,                       // 81
-		l.KennzHauptBankverb,                     // 82
+		l.KennzHauptBankverb4,                     // 82
 		l.Bankverb4GultigVon,                     // 83
 		l.Bankverb4GultigBis,                     // 84
 		l.Bankleitzahl5,                          // 85
 		l.Bankbezeichnung5,                       // 86
 		l.BankkontoNummer5,                       // 87
-		l.Länderkennzeichen5,                     // 88
+		l.Landerkennzeichen5,                     // 88
 		l.IBAN5,                                  // 89
 		l.Leerfeld5,                              // 90
 		l.SWIFTCode5,                             // 91
@@ -1102,7 +1102,7 @@ func (l StammdatenLine) Values() []interface{} {
 		l.BankkontoNummer6,                       // 167
 		l.Landerkennzeichen6,                     // 168
 		l.IBAN6,                                  // 169
-		l.Leerfel6,                               // 170
+		l.Leerfeld6,                               // 170
 		l.SWIFTCode6,                             // 171
 		l.AbwKontoinhaber6,                       // 172
 		l.KennzHauptBankverb6,                    // 173
