@@ -587,6 +587,30 @@ type CSVBookingLine struct {
 
 	// Steuerperiode
 	DatumZuord Date // 116
+
+	// fälligkeit
+	Falligkeit Date // 117
+
+	// Generalumkehr
+	Generalumkehr Bool // 118
+
+	// Steuersatz
+	Steuersatz string // 119
+
+	// Land
+	Land string // 120
+
+	// Abrechnungsreferenz
+	Abrechnungsreferenz string // 121
+
+	// BVV-Position (Betriebsvermögensvergleich)
+	BVVPosition string // 122
+
+	// EU-Mitgliedstaat u. UStID (Ursprung)
+	EUMitgliedstaat string // 123
+
+	// EU-Steuersatz (Ursprung)
+	EUSteuersatzUrsprung string // 124
 }
 
 func (l CSVBookingLine) Validate() []error {
@@ -712,6 +736,14 @@ func (e CSVBookingLine) Headers() []string {
 		"Festschreibung",
 		"Leistungsdatum",
 		"Datum Zuord.",
+		"Fälligkeit",
+		"Generalumkehr ",
+		"Steuersatz",
+		"Land",
+		"Abrechnungsreferenz ",
+		"BVV-Position (Betriebsvermögensvergleich)",
+		"EU-Mitgliedstaat u. UStID (Ursprung)",
+		"EU-Steuersatz (Ursprung)",
 	}
 }
 
@@ -833,6 +865,14 @@ func (l CSVBookingLine) Values() []interface{} {
 		&l.Festschreibung,
 		&l.Leistungsdatum,
 		&l.DatumZuord,
+		&l.Falligkeit,
+		&l.Generalumkehr,
+		l.Steuersatz,
+		l.Land,
+		l.Abrechnungsreferenz,
+		l.BVVPosition,
+		l.EUMitgliedstaat,
+		l.EUSteuersatzUrsprung,
 	}
 }
 
