@@ -29,6 +29,17 @@ func (d Decimal) String() string {
 	return strings.Replace(s, ".", ",", -1)
 }
 
+type ZeroDecimal float64
+
+func (d ZeroDecimal) String() string {
+	if float64(d) == 0.0 {
+		return "0,00"
+	}
+
+	s := fmt.Sprintf("%.2f", float64(d))
+	return strings.Replace(s, ".", ",", -1)
+}
+
 type Date struct {
 	time.Time
 }

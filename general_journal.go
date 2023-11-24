@@ -414,7 +414,7 @@ type CSVBookingLine struct {
 	// Nur für entsprechende EU-Buchungen:
 	// Der im EU-Bestimmungsland gültige Steuersatz.
 	// Beispiel: 12,12
-	EUSteuersatz Decimal // 41
+	EUSteuersatz ZeroDecimal // 41
 
 	// Für Buchungen, die in einer von der Mandantenstammdaten-Schlüsselung abweichenden Umsatzsteuerart verarbeitet werden sollen, kann die abweichende Versteuerungsart im Buchungssatz übergeben werden:
 	// I = Ist-Versteuerung
