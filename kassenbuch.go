@@ -16,7 +16,7 @@ type KassenbuchLine struct {
 	// Trennzeichen Komma (,)
 	// Keine Tausendertrennzeichen
 	// Wert >0
-	VorzBetrag NilDecimal // 2
+	VorzBetrag Decimal // 2
 
 	// Beleg-Nr.
 	// Maximale Länge: 36 Zeichen
@@ -41,7 +41,7 @@ type KassenbuchLine struct {
 	// Nachkommastellen
 	// Numerisch
 	// Dezimalpunkt = Komma (,)
-	UStSatz NilDecimal // 6
+	UStSatz Decimal // 6
 
 	// Berichtigungsschlüssel (B)
 	// Umsatzsteuerschlüssel (U)
@@ -76,14 +76,14 @@ type KassenbuchLine struct {
 	// Dezimalpunkt = Komma (,)
 	// Keine Tausendertrennzeichen
 	// Wert >0
-	Kostmenge NilDecimal // 11
+	Kostmenge Decimal // 11
 
 	// Skontobetrag in EUR
 	// Maximale Länge: 8,2
 	// Numerisch
 	// Dezimalpunkt = Komma (,)
 	// Wert >0
-	Skonto NilDecimal // 12
+	Skonto Decimal // 12
 
 	// Nachricht
 	// Maximale Länge: 120 Zeichen
