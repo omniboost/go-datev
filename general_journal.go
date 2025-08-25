@@ -589,7 +589,7 @@ type CSVBookingLine struct {
 	DatumZuord Date // 116
 
 	// fälligkeit
-	Falligkeit Date // 117
+	Falligkeit MediumDate // 117
 
 	// Generalumkehr
 	Generalumkehr Bool // 118
