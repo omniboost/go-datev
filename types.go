@@ -139,6 +139,10 @@ type MediumDate struct {
 }
 
 func (d MediumDate) String() string {
+	// DATEV rejects the zero date (01010001): leave the field empty instead
+	if d.IsZero() {
+		return ""
+	}
 	return d.Time.Format("02012006")
 }
 
